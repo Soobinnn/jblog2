@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+
+	<!-- 회원가입 -->
+	<insert id="insert" parameterType="uservo">
+		<![CDATA[
+			INSERT INTO USERS VALUES(#{ID}, #{NAME}, #{PASSWORD}, now())
+		]]>
+	</insert>
+
+	<!-- 회원가입시 자동으로 블로그 생성 -->
+	<insert id="insertBlog" parameterType="blogvo">
+		<![CDATA[
+			INSERT INTO BLOG VALUES(#{ID}, #{TITLE}, #{LOGO})
+		]]>
+	</insert>
+	
+	<!-- 로그인확인 -->
+	<select id="getUser" parameterType="uservo" resultType="uservo">
+		<![CDATA[	 
+			SELECT ID, NAME FROM USERS 
+		 	WHERE ID = #{ID} AND PASSWORD = #{PASSWORD}
+		]]>
+	</select>
+</mapper>
