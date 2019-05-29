@@ -71,7 +71,7 @@ public class BlogController
 			// 카테고리관리 페이지
 			if(nav_no ==2)
 			{
-				/** 블로그 카테고리 목록 가져오기**/
+				/** 블로그 카테고리 목록 가져오기 **/
 				List<CategoryVo> categoryList = categoryService.getCategoryList(ID);
 				model.addAttribute("categoryList",  categoryList);
 				
@@ -80,6 +80,8 @@ public class BlogController
 			// 포스트관리 페이지
 			else if(nav_no ==3)
 			{
+				/** 카테고리명 가져오기 **/
+				
 				return "blog/blog-admin-write";
 			}
 			

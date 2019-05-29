@@ -11,12 +11,27 @@
 <script src="<c:url value='/assets/js/jquery/jquery-1.9.0.js'/>"></script>
 <script>
 $(function(){
-	$('#category_submit').click(function(){
+	
+	function appendCategory(list)
+	{
+		$(".category_list").append("<tr><td>"+list.category_NO+"</td><td>"+list.category_NAME+"</td><td>포스트수</td><td>"
+				+list.description+"</td><td><img id='category_del' name='"+list.category_NO
+				+"' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td></tr>");	
+	}
+	
+	// 카테고리 삭제
+	$(document).on("click","#category_del",function(event)
+	{
+		var category_no = $(this).attr('name');
+		var param = "CATEGORY_NO="+category_no	
+	});
+	
+	// 카테고리 등록 & 리스트 불러오기(ajax)
+	$('#category_submit').click(function()
+	{
 		var CATEGORY_NAME = $('#CATEGORY_NAME').val();
 		var DESCRIPTION = $('#DESCRIPTION').val();
 		var ID = "${sessionScope.authUser.ID}";
-		console.log(CATEGORY_NAME);
-		console.log(DESCRIPTION);
 		
 		if(CATEGORY_NAME == '' || DESCRIPTION=='')
 		{
@@ -24,34 +39,30 @@ $(function(){
 		}
 		
 		var category = "CATEGORY_NAME="+CATEGORY_NAME+"&DESCRIPTION="+DESCRIPTION+"&ID="+ID;
+		
 		/* ajax 통신 */
 		$.ajax({
 			url: "${pageContext.servletContext.contextPath }/blog/api/categoryWrite", 
 			type: "post", 
 			dataType: "json",
-			data: "category",
+			data: category,
 			success: function(response){
 				if(response.result != "success"){
 					console.log(response);
 					//console.error(response.message);
 					return;
 				}
-				/*  $("#chatArea").empty();
-		        	var messagelist;
-		        	var _chatRoomId; 
-		        	 for(var i in data)
-		        	 {
-		        		 messagelist = data[i];	 
-		        		 _chatRoomId = data[i].chatroom_id;
-		        		 appendMessage(messagelist);
-		        	 }
-		        	 lookRoom = _chatRoomId;
-		        	// 채팅방 위에 닉네임
-		     		$("#chat_info_nick").empty();
-		     		$("#chat_info_nick").append("<span id='chat_info_receiver'>"+follow+"</span>");
-		     		$("#chat_info_img").empty();
-		     		$("#chat_info_img").append("<img id='target_img' src='"+_profile+"'width='60px' height='60px'>");
-		         } */
+				//console.log(response);
+				//console.log(response.data);
+				
+				$(".category_list").empty();
+				var categorylist;
+		        for(var i in response.data)
+		        {
+		        	categorylist = response.data[i];	 
+		        	appendCategory(categorylist);
+		        }
+		          
 				if(response.data == true)
 				{
 					alert('이미 존재하는 아이디입니다.\n다른 아이디를 사용해 주세요.');
@@ -59,15 +70,14 @@ $(function(){
 					$("#blog-id").val("");
 					return;
 				}
-				$('#CATEGORY_NAME').empty();
-				$('#DESCRIPTION').empty();
+				$('#CATEGORY_NAME').val("");
+				$('#DESCRIPTION').val("");
 			},
 			error: function(xhr, error){
 				console.error("error:" + error)
 			}
 		});
 		
-		console.log(ID);
 	});	
 });
 </script>
@@ -79,6 +89,7 @@ $(function(){
 			<div id="content" class="full-screen">
 			<c:import url='/WEB-INF/views/includes/blog_admin_nav.jsp'/>
 		      	<table class="admin-cat">
+		      	<thead>
 		      		<tr>
 		      			<th>번호</th>
 		      			<th>카테고리명</th>
@@ -86,27 +97,18 @@ $(function(){
 		      			<th>설명</th>
 		      			<th>삭제</th>      			
 		      		</tr>
-					<tr>
-						<td>3</td>
-						<td>미분류</td>
-						<td>10</td>
-						<td>카테고리를 지정하지 않은 경우</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>  
-					<tr>
-						<td>2</td>
-						<td>스프링 스터디</td>
-						<td>20</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
+		      	</thead>
+		      	<tbody class="category_list">
+		      	<c:forEach items="${categoryList}" var="vo" varStatus="status">
+		      		<tr>
+						<td>${vo.CATEGORY_NO}</td>
+						<td>${vo.CATEGORY_NAME}</td>
+						<td>포스트수</td>
+						<td>${vo.DESCRIPTION}</td>
+						<td><img id="category_del" name="${vo.CATEGORY_NO}" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>스프링 프로젝트</td>
-						<td>15</td>
-						<td>어쩌구 저쩌구</td>
-						<td><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-					</tr>					  
+				</c:forEach>  
+		      	</tbody>
 				</table>
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>
