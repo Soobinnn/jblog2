@@ -9,4 +9,7 @@ public interface UserService
 	
 	/** 로그인확인 **/
 	public UserVo getUser(UserVo userVo);
+	
+	/** 이메일 체크 (ajax) **/
+	public Boolean checkId(String id);
 }

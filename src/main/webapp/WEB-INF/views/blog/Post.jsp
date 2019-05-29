@@ -14,27 +14,22 @@
 		<c:import url='/WEB-INF/views/includes/blog_nav.jsp'/>
 		<div id="wrapper">
 			<div id="content" class="full-screen">
-				<c:import url='/WEB-INF/views/includes/blog_admin_nav.jsp'/>
-				<form action="" method="post">
-	 		      	<table class="admin-config">
+			      	<table class="admin-cat-write">
 			      		<tr>
-			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title" value="${blogInfo.TITLE}"></td>
+			      			<td class="t">제목</td>
+			      			<td>
+			      				<input type="text" size="60" name="title">
+				      			<span>카테고리</span>
+				      		</td>
 			      		</tr>
 			      		<tr>
-			      			<td class="t">로고이미지</td>
-			      			<td><img src="${pageContext.request.contextPath}/${blogInfo.LOGO}"></td>      			
-			      		</tr>      		
+			      			<td class="t">내용</td>
+			      			<td><textarea name="content"></textarea></td>
+			      		</tr>
 			      		<tr>
-			      			<td class="t">&nbsp;</td>
-			      			<td><input type="file" name="logo-file"></td>      			
-			      		</tr>           		
-			      		<tr>
-			      			<td class="t">&nbsp;</td>
-			      			<td class="s"><input type="submit" value="기본설정 변경"></td>      			
-			      		</tr>           		
+			      			<td>&nbsp;</td>
+			      		</tr>
 			      	</table>
-				</form>
 			</div>
 		</div>
 		<div id="footer">

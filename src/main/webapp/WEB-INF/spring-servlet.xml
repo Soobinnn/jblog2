@@ -44,7 +44,6 @@
 	<!-- 빈설정을 annotation으로 하겠다.(@Controller에 auto scanning) -->
 	<context:annotation-config />
 	<!-- Controller Scanning 하는 base package 지정 -->
-	<context:component-scan base-package="com.cafe24.jblog2.controller" />
+	<context:component-scan base-package="com.cafe24.jblog2.controller, com.cafe24.jblog2.controller.api" />
 
-	
 </beans>

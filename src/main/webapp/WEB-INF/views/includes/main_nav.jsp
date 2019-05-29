@@ -12,7 +12,7 @@
 		<c:when test='${!empty sessionScope.authUser}'>
 			<li>${sessionScope.authUser.NAME}님 
 			<li><a href="${pageContext.servletContext.contextPath}/user/logout">로그아웃</a></li>
-			<li><a href="">내블로그(추가예정)</a></li>
+			<li><a href="${pageContext.servletContext.contextPath}/${sessionScope.authUser.ID}">내블로그</a></li>
 		</c:when>
 	</c:choose>
 </ul>

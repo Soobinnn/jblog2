@@ -23,4 +23,10 @@
 		 	WHERE ID = #{ID} AND PASSWORD = #{PASSWORD}
 		]]>
 	</select>
+	
+	<select id ="getId" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM USERS WHERE ID = #{id}
+		]]>
+	</select>
 </mapper>

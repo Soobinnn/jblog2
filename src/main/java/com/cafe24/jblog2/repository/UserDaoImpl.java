@@ -26,4 +26,11 @@ public class UserDaoImpl implements UserDao
 	{
 		return sqlSession.selectOne("users.getUser",userVo);
 	}
+	
+	/** 이메일 체크 (ajax) **/
+	public Boolean checkId(String id)
+	{
+		int count = sqlSession.selectOne("users.getId", id);
+		return 1 == count;
+	}
 }

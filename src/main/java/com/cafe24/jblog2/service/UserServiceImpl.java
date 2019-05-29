@@ -36,4 +36,10 @@ public class UserServiceImpl implements UserService
 	{
 		return userDao.getUser(userVo);
 	}
+	/** 이메일 체크 (ajax) **/
+	@Override
+	public Boolean checkId(String id)
+	{
+		return userDao.checkId(id);
+	}
 }
