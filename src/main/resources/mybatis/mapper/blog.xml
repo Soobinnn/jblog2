@@ -14,4 +14,10 @@
 			SELECT * FROM BLOG WHERE ID = #{ID}
 		]]>
 	</select>
+	
+	<update id="updateBlog" parameterType="blogvo">
+		<![CDATA[
+			UPDATE BLOG SET TITLE=#{TITLE}, LOGO=#{LOGO} WHERE  ID=#{ID}
+		]]>
+	</update>
 </mapper>

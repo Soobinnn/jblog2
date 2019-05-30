@@ -9,6 +9,7 @@ public class CategoryVo
 	private String DESCRIPTION;
 	private Date REG_DATE;
 	private String ID;
+	private long postCount;
 	
 	public long getCATEGORY_NO() {
 		return CATEGORY_NO;
@@ -39,6 +40,13 @@ public class CategoryVo
 	}
 	public void setCATEGORY_NAME(String cATEGORY_NAME) {
 		CATEGORY_NAME = cATEGORY_NAME;
+	}
+	
+	public long getPostCount() {
+		return postCount;
+	}
+	public void setPostCount(long postCount) {
+		this.postCount = postCount;
 	}
 	@Override
 	public String toString() {

@@ -2,10 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="category">
 
+	<!-- 카테고리 default(미분류) 생성  -->
+	<insert id="defaultCategory" parameterType="string">
+		<![CDATA[
+			INSERT INTO CATEGORY VALUES(null, "미분류", "미분류", now(), #{id}) 
+		]]>
+	</insert>
+	
 	<!--  블로그  카테고리 목록  가져오기 -->
 	<select id="getCategoryList" parameterType="string" resultType="categoryvo">
 		<![CDATA[
-			select * from CATEGORY WHERE ID = #{id}
+				SELECT a.*,(SELECT COUNT(*) FROM POST b WHERE a.CATEGORY_NO = b.CATEGORY_NO)as postCount 
+            	FROM CATEGORY a WHERE ID = #{id}
 		]]>
 	</select>
 	
@@ -15,4 +23,16 @@
 			INSERT INTO CATEGORY VALUES (null, #{CATEGORY_NAME}, #{DESCRIPTION}, now(), #{ID})
 		]]>
 	</insert>
+	<!-- 카테고리 삭제 (ajax)   -->
+	<delete id="deleteCategory" parameterType="categoryvo">
+			DELETE FROM CATEGORY WHERE CATEGORY_NO =#{CATEGORY_NO} AND ID = #{ID}
+	</delete>
+	
+	<!-- 카테고리명 가져오기 -->
+	<select id="getCategoryNameList" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			SELECT CATEGORY_NO, CATEGORY_NAME FROM CATEGORY WHERE ID = #{id}
+		]]>
+		
+	</select>
 </mapper>

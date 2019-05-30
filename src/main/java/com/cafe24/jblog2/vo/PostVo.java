@@ -9,6 +9,7 @@ public class PostVo
 	private String CONTENT;
 	private Date REG_DATE;
 	private long CATEGORY_NO;
+	private String ID;
 	
 	public long getPOST_NO() {
 		return POST_NO;
@@ -39,6 +40,13 @@ public class PostVo
 	}
 	public void setCATEGORY_NO(long cATEGORY_NO) {
 		CATEGORY_NO = cATEGORY_NO;
+	}
+	
+	public String getID() {
+		return ID;
+	}
+	public void setID(String iD) {
+		ID = iD;
 	}
 	@Override
 	public String toString() {

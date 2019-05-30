@@ -15,15 +15,16 @@
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<c:import url='/WEB-INF/views/includes/blog_admin_nav.jsp'/>
-				<form action="" method="post">
+				<form action="${pageContext.servletContext.contextPath}/${sessionScope.authUser.ID}/upload" method="post"  enctype="multipart/form-data">
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>
-			      			<td><input type="text" size="40" name="title" value="${blogInfo.TITLE}"></td>
+			      			<td><input type="text" size="40" name="title" value="${blogInfo.TITLE}">
+			      			</td>
 			      		</tr>
 			      		<tr>
 			      			<td class="t">로고이미지</td>
-			      			<td><img src="${pageContext.request.contextPath}/${blogInfo.LOGO}"></td>      			
+			      			<td><img src="${pageContext.request.contextPath}${blogInfo.LOGO}"></td>      			
 			      		</tr>      		
 			      		<tr>
 			      			<td class="t">&nbsp;</td>

@@ -25,4 +25,10 @@ public class BlogServiceImpl implements BlogService
 		return blogDao.getInfo(ID);
 	}
 
+	/** 블로그 정보 업데이트**/
+	@Override
+	public void updateBlog(BlogVo blogVo)
+	{
+		blogDao.updateBlog(blogVo);
+	}
 }

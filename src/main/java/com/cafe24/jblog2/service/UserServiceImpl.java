@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.jblog2.repository.BlogDao;
+import com.cafe24.jblog2.repository.CategoryDao;
 import com.cafe24.jblog2.repository.UserDao;
 import com.cafe24.jblog2.vo.BlogVo;
 import com.cafe24.jblog2.vo.UserVo;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private BlogDao blogDao;
 	
+	@Autowired
+	private CategoryDao categoryDao;
+	
 	/** 회원가입 **/
 	@Override
 	public void join(UserVo userVo)
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService
 		
 		//회원가입시 자동으로 블로그 생성
 		blogDao.createBlog(blogVo);
+		
+		//카테고리 default(미분류) 생성
+		categoryDao.defaultCategory(userVo.getID());
 	}
 	
 	/** 로그인확인 **/

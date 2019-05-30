@@ -25,9 +25,19 @@ public class BlogController
 	@RequestMapping(value="/categoryWrite", method=RequestMethod.POST)
 	public JSONResult categoryWrite(@ModelAttribute CategoryVo categoryVo)
 	{
-		System.out.println(categoryVo.toString());
 		// 카테고리 글 작성 후 리스트 반환
 		List<CategoryVo> categoryList = categoryService.WriteGetList(categoryVo);
+		return JSONResult.success(categoryList);
+	}
+	
+	/** 카테고리 삭제 **/
+	@ResponseBody
+	@RequestMapping(value="/categoryDelete", method=RequestMethod.POST)
+	public JSONResult categoryDelete(@ModelAttribute CategoryVo categoryVo)
+	{
+		//카테고리 삭제 후 리스트 반환
+		List<CategoryVo> categoryList = categoryService.DeleteGetList(categoryVo);
+		
 		return JSONResult.success(categoryList);
 	}
 }

@@ -14,7 +14,7 @@ $(function(){
 	
 	function appendCategory(list)
 	{
-		$(".category_list").append("<tr><td>"+list.category_NO+"</td><td>"+list.category_NAME+"</td><td>포스트수</td><td>"
+		$(".category_list").append("<tr><td>"+list.category_NO+"</td><td>"+list.category_NAME+"</td><td>"+list.postCount+"</td><td>"
 				+list.description+"</td><td><img id='category_del' name='"+list.category_NO
 				+"' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td></tr>");	
 	}
@@ -23,7 +23,46 @@ $(function(){
 	$(document).on("click","#category_del",function(event)
 	{
 		var category_no = $(this).attr('name');
-		var param = "CATEGORY_NO="+category_no	
+		var param = "CATEGORY_NO="+category_no+"&ID=${sessionScope.authUser.ID}";
+		
+		/* ajax 통신 */
+		$.ajax({
+			url: "${pageContext.servletContext.contextPath}/blog/api/categoryDelete", 
+			type: "post", 
+			dataType: "json",
+			data: param,
+			success: function(response){
+				if(response.result != "success"){
+					console.log(response);
+					//console.error(response.message);
+					return;
+				}
+				//console.log(response);
+				//console.log(response.data);
+				
+				$(".category_list").empty();
+				$(".category_list").text();
+				var categorylist;
+		        for(var i in response.data)
+		        {
+		        	categorylist = response.data[i];	 
+		        	appendCategory(categorylist);
+		        }
+		          
+				if(response.data == true)
+				{
+					alert('이미 존재하는 아이디입니다.\n다른 아이디를 사용해 주세요.');
+					$("#blog-id").focus();
+					$("#blog-id").val("");
+					return;
+				}
+				$('#CATEGORY_NAME').val("");
+				$('#DESCRIPTION').val("");
+			},
+			error: function(xhr, error){
+				console.error("error:" + error)
+			}
+		});
 	});
 	
 	// 카테고리 등록 & 리스트 불러오기(ajax)
@@ -53,9 +92,10 @@ $(function(){
 					return;
 				}
 				//console.log(response);
-				//console.log(response.data);
+				console.log(response.data);
 				
 				$(".category_list").empty();
+				$(".category_list").text();
 				var categorylist;
 		        for(var i in response.data)
 		        {
@@ -103,7 +143,7 @@ $(function(){
 		      		<tr>
 						<td>${vo.CATEGORY_NO}</td>
 						<td>${vo.CATEGORY_NAME}</td>
-						<td>포스트수</td>
+						<td>${vo.postCount}</td>
 						<td>${vo.DESCRIPTION}</td>
 						<td><img id="category_del" name="${vo.CATEGORY_NO}" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
 					</tr>

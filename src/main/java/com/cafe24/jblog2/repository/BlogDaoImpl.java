@@ -27,4 +27,11 @@ public class BlogDaoImpl implements BlogDao
 	{
 		return sqlSession.selectOne("blog.getInfo",ID);
 	}
+	
+	/** 블로그 정보 업데이트**/
+	@Override
+	public void updateBlog(BlogVo blogVo)
+	{
+		sqlSession.update("blog.updateBlog", blogVo);
+	}
 }
