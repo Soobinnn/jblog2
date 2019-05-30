@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,18 +51,19 @@ public class BlogController
 		long postNo = postno.isPresent() ? postno.get() : 0;
 		
 		/** 메인 컨텐츠 가져오기 **/
-		Map<String, Object> mainView = PostService.mainView(ID, categoryNo, postNo);
+		Map<String, Object> mainView = postService.mainView(ID, categoryNo, postNo);
 		
 		/**블로그 정보 **/
 		BlogVo blogVo = blogService.getInfo(ID);
 		
 		//예외처리
-		if(blogVo == null)
+		if(blogVo == null || mainView == null)
 		{
 			return "";
 		}
-		
+
 		model.addAttribute("blogInfo",blogVo);
+		model.addAttribute("mainView", mainView);
 		return "blog/blog-main";
 	}
 	

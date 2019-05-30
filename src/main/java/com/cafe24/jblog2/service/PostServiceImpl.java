@@ -1,5 +1,6 @@
 package com.cafe24.jblog2.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,28 +33,43 @@ public class PostServiceImpl implements PostService
 	@Override
 	public Map<String, Object> mainView(String id, Long categoryNo, Long postNo)
 	{
+		PostVo postView = new PostVo();
+		List<PostVo> postList = new ArrayList<PostVo>();
+		
 		if(categoryNo ==0 && postNo ==0)
 		{
+			System.out.println("default");
 			// 최근 포스트 내용 가져오기
+			postView = postDao.getPostView(id);
+			// 포스트 목록가져오기
+			postList = postDao.getPostList(postView.getCATEGORY_NO()); 
 			
 		}
-		else if(postNo == 0)
+		else if(categoryNo == 0 && postNo >0)
 		{
-				// 해당 카테고리의 최근 포스트 내용 가져오기
-				PostVo postView = postDao.getPostView(categoryNo);
+			System.out.println("카테고리0");
+			return null;
 		}
-		
-		// 해당 포스트내용 가져오기
-		PostVo postView = postDao.getPostView();
-		
-		// 포스트 목록가져오기
-		List<PostVo> postList = postDao.getPostList(id); 
+		else
+		{
+			System.out.println("포스트0 or AL");
+			// 해당 카테고리의 최근 포스트 내용 가져오기
+			postView = postDao.getPostView(categoryNo);
+			// 포스트 목록가져오기
+			postList = postDao.getPostList(postView.getCATEGORY_NO()); 
+		}
+
 
 		// 카테고리 가져오기
 		List<CategoryVo> categoryList = categoryDao.getCategoryList(id);
 		
-		Map<String, Object> mainView = new HashMap<String, Object>();
+		Map<String, Object> mainContent = new HashMap<String, Object>();
 		
-		return mainView;
+		mainContent.put("postView", postView);
+		mainContent.put("postList", postList);
+		mainContent.put("categoryList", categoryList);
+		
+		
+		return mainContent;
 	}
 }

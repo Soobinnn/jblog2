@@ -24,9 +24,23 @@ public class PostDaoImpl implements PostDao
 	
 	/** 해당 카테고리 포스트 목록 가져오기 **/
 	@Override
-	public List<PostVo> getPostList(String id)
+	public List<PostVo> getPostList(Long categoryNo)
 	{
-		return sqlSession.selectList("post.getPostList",id);
+		return sqlSession.selectList("post.getPostList",categoryNo);
+	}
+	
+	/** 최근 포스트 내용 가져오기 **/
+	@Override
+	public PostVo getPostView(String id)
+	{
+		return sqlSession.selectOne("post.getPostViewId", id);
+	}
+	
+	/** 해당 카테고리의 최근 포스트 내용 가져오기 **/
+	@Override
+	public PostVo getPostView(Long categoryNo) 
+	{
+		return sqlSession.selectOne("post.getPostViewNo", categoryNo);
 	}
 	
 }

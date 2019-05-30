@@ -10,9 +10,24 @@
 	</insert>
 	
 	<!-- 포스트목록 가져오기 -->
-	<select id="getPostList" parameterType="postvo">
+	<select id="getPostList" parameterType="long" resultType="postvo">
 		<![CDATA[
-			SELECT * FROM POST WHERE 
+			SELECT * FROM POST WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
+		]]>
+	</select>
+	
+	<!-- 최근 포스트 내용 가져오기 -->
+	<select id="getPostViewId" parameterType="string" resultType="postvo">
+		<![CDATA[
+			SELECT b.* FROM CATEGORY a, POST b 
+			WHERE a.ID = #{id} AND a.CATEGORY_NO = b.CATEGORY_NO 
+			ORDER BY b.REG_DATE DESC Limit 1;
+		]]>
+	</select>
+	
+	<select id="getPostViewNo" parameterType="long" resultType="postvo">
+		<![CDATA[
+			SELECT * FROM POST WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC Limit 1
 		]]>
 	</select>
 </mapper>
