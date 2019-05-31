@@ -17,6 +17,9 @@
 				<div class="blog-content">
 					<h4>${mainView.postView.TITLE}</h4>
 					<p>
+						<c:if test='${empty mainView.postView}'>
+							<span style="font-size:1rem;font-weight:bold">해당 카테고리에는 포스트가 없습니다.</span>
+						</c:if>
 						${mainView.postView.CONTENT}
 					<p>
 				</div>
