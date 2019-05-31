@@ -28,34 +28,6 @@ public class UserController
 		return "user/login";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@RequestParam(value="ID", required=true, defaultValue="") String id,
-			@RequestParam(value="PASSWORD", required=true, defaultValue="") String password, 
-			HttpSession session, Model model)
-	{
-		UserVo authUser = userService.getUser(new UserVo(id, password));
-		
-		if(authUser == null) 
-		{
-			model.addAttribute("result", "fail");
-			return "user/login";
-		}
-		
-		// session 처리
-		session.setAttribute("authUser", authUser);
-		
-		return "redirect:/";
-	}
-	
-	/** 로그아웃 **/
-	@RequestMapping("/logout")
-	public String logout(HttpSession session)
-	{
-		session.removeAttribute("authUser");
-		session.invalidate();
-		
-		return "redirect:/";
-	}
 	
 	/** 회원가입 **/
 	@RequestMapping(value="/join", method=RequestMethod.GET)

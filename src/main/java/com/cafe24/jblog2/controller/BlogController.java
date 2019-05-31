@@ -25,6 +25,7 @@ import com.cafe24.jblog2.vo.BlogVo;
 import com.cafe24.jblog2.vo.CategoryVo;
 import com.cafe24.jblog2.vo.PostVo;
 import com.cafe24.jblog2.vo.UserVo;
+import com.cafe24.security.Auth;
 
 
 @Controller
@@ -68,6 +69,7 @@ public class BlogController
 	}
 	
 	/** 블로그 관리페이지 **/
+	@Auth
 	@RequestMapping("/admin")
 	public String blogAdmin(@PathVariable String ID,HttpSession session, @RequestParam(value="n",required=false, defaultValue="1") int nav_no, Model model)
 	{
@@ -106,15 +108,18 @@ public class BlogController
 	}
 	
 	/** 블로그 포스트 작성 **/
+	@Auth
 	@RequestMapping(value="/postWrite", method=RequestMethod.POST)
 	public String blogWrite(@PathVariable String ID, @ModelAttribute PostVo postVo, Model model)
 	{
 			postService.postWrite(postVo);
+			System.out.println(postVo.toString());
 			//"redirect:/"+ID+"/Category/Post?no="+boardVo.getBoard_no();
-			return "blog/Post";
+			return "redirect:/"+ID+"/"+postVo.getCATEGORY_NO()+"/"+postVo.getPOST_NO();
 	}
 	
 	/** 블로그 정보 업데이트**/
+	@Auth
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	public String upload(
 	@PathVariable String ID,

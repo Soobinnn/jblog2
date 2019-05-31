@@ -11,6 +11,8 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<!-- auto proxy -->
+	
 	<!--  1. validator, conversionService, messageConverter를 자동으로 등록  -->
 	<mvc:annotation-driven >	<!-- 메시지 컨버터 자동등록 -->
 		<mvc:message-converters>
@@ -29,7 +31,13 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
+		
+			<!-- Argument Resolvers (authUser)-->
+		<mvc:argument-resolvers>
+			<bean class="com.cafe24.security.AuthUserHandlerMethodArgumentResolver"/>
+		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
+	
 	
 	<!-- 2. 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler/>
@@ -44,6 +52,25 @@
 	   <property name="suffix" value=".jsp" />
 	   <property name="order" value="1" />
 	</bean>	
+	
+	<!-- Interceptors -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth" />
+			<bean class="com.cafe24.security.AuthLoginInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout" />
+			<bean class="com.cafe24.security.AuthLogoutInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="com.cafe24.security.AuthInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 	
 	<!-- 빈설정을 annotation으로 하겠다.(@Controller에 auto scanning) -->
 	<context:annotation-config />
@@ -60,5 +87,7 @@
 		<!-- defaultEncoding -->
 		<property name="defaultEncoding" value="utf-8" />
 	</bean>	
+
+
 
 </beans>

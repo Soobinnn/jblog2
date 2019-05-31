@@ -14,7 +14,7 @@
 	<div class="center-content">
 		<h1 class="logo">JBlog</h1>
 		<c:import url="/WEB-INF/views/includes/main_nav.jsp"/>
-		<form class="login-form" method="post" action="${pageContext.servletContext.contextPath}/user/login">
+		<form class="login-form" method="post" action="${pageContext.servletContext.contextPath}/user/auth">
       		<label>아이디</label> <input type="text" name="ID">
       		<label>패스워드</label> <input type="text" name="PASSWORD">
       		<input type="submit" value="로그인">
