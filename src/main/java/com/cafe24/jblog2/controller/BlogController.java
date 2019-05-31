@@ -122,14 +122,15 @@ public class BlogController
 	@RequestParam(value="logo-file") MultipartFile multipartFile,
 	Model model) 
 	{
-		System.out.println( "title:" + title + "id:");
 		String url = fileuploadService.restore( multipartFile );
+		
 		
 		BlogVo blogVo = new BlogVo();
 		
 		blogVo.setID(ID);
 		blogVo.setTITLE(title);
 		blogVo.setLOGO(url);
+		
 		blogService.updateBlog(blogVo);
 		
 		System.out.println(url);

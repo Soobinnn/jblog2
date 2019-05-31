@@ -91,7 +91,7 @@ $(function(){
 			<img id="img-checkemail" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
 
 			<label class="block-label" for="password">패스워드</label>
-			<input id="password" name="PASSWORD" type="password" />
+			<input type="password" id="password" name="PASSWORD" >
 
 			<fieldset>
 				<legend>약관동의</legend>

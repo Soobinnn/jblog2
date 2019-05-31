@@ -33,6 +33,5 @@
 		<![CDATA[
 			SELECT CATEGORY_NO, CATEGORY_NAME FROM CATEGORY WHERE ID = #{id}
 		]]>
-		
 	</select>
 </mapper>

@@ -20,4 +20,9 @@
 			UPDATE BLOG SET TITLE=#{TITLE}, LOGO=#{LOGO} WHERE  ID=#{ID}
 		]]>
 	</update>
+	<update id="updateBlogTitle" parameterType="blogvo">
+		<![CDATA[
+			UPDATE BLOG SET TITLE=#{TITLE} WHERE  ID=#{ID}
+		]]>
+	</update>
 </mapper>

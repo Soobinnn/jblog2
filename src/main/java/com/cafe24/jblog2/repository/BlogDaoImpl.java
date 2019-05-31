@@ -32,6 +32,14 @@ public class BlogDaoImpl implements BlogDao
 	@Override
 	public void updateBlog(BlogVo blogVo)
 	{
-		sqlSession.update("blog.updateBlog", blogVo);
+		if("".equals(blogVo.getLOGO()))
+		{
+			sqlSession.update("blog.updateBlogTitle", blogVo);
+		}
+		else
+		{
+			sqlSession.update("blog.updateBlog", blogVo);
+		}
+		
 	}
 }

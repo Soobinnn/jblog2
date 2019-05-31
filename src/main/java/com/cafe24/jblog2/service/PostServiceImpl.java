@@ -55,8 +55,12 @@ public class PostServiceImpl implements PostService
 			System.out.println("포스트0 or AL");
 			// 해당 카테고리의 최근 포스트 내용 가져오기
 			postView = postDao.getPostView(categoryNo);
-			// 포스트 목록가져오기
-			postList = postDao.getPostList(postView.getCATEGORY_NO()); 
+			
+			if(postView != null)
+			{
+				// 포스트 목록가져오기
+				postList = postDao.getPostList(postView.getCATEGORY_NO());
+			}
 		}
 
 

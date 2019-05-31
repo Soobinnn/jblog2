@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 
 	<div id="header">	
-		<h1>${blogInfo.TITLE}</h1>
+		<h1><a href="${pageContext.servletContext.contextPath}/${blogInfo.ID}" class="head_" style="color:white">${blogInfo.TITLE}</a></h1>
 		<c:choose>
 			<c:when test='${sessionScope.authUser.ID==blogInfo.ID}'>
 					<ul>
