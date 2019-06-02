@@ -17,17 +17,27 @@ $(function(){
 	var Checkagree= false;
 	var CheckId = false;
 	
-/* 	function checks()
+	$('#join_submit').on('click',function()
 	{
-			
-	}
+ 		if($("#agree-prov").is(":checked") == false)
+ 		{
+ 			alert("서비스약관에 동의해주세요.");
+ 			return false;
+ 		}
+ 		console.log("test");
+ 		$("#join-form").submit();
+	});
 	 // 처음에 등록 활성화 끄기
-	  $('#join_submit').prop("disabled", true).css("background-color", "#aaaaa");
-	 */
+	 // $('#join_submit').prop("disabled", true).css("background-color", "#aaaaa");
+	 
 	 
 	  $('#agree-prov').on('click',function()
 	  {
 		  	CheckId = $(this).prop('checked');
+		  	if($("#agree-prov").is(":checked") == false)
+	 		{
+	 			alert("서비스약관에 동의해주세요.");
+	 		}
 	  });
 	  
 	$('#blog-id').change(function()
@@ -84,7 +94,7 @@ $(function(){
 		<h1 class="logo">JBlog</h1>
 		<c:import url="/WEB-INF/views/includes/main_nav.jsp"/>
 		<form:form modelAttribute="userVo" class="join-form" id="join-form" 
-			name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join" >
+			name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join">
 			<label class="block-label" for="name">이름</label>
 			<input id="name"name="NAME" type="text" value="">
 			<spring:hasBindErrors name="userVo">
@@ -98,7 +108,6 @@ $(function(){
 			</spring:hasBindErrors>
 			
 			<label class="block-label" for="ID">아이디</label>
-			<!-- <input id="blog-id" name="ID" type="text">  -->
 			<form:input id="ID" path="ID" />
 			<input id="btn-checkemail" type="button" value="id 중복체크">
 			<img id="img-checkemail" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
@@ -108,7 +117,6 @@ $(function(){
 			
 			<label class="block-label" for="PASSWORD">패스워드</label>
 			<form:password id="password" path="PASSWORD" />
-			<!-- <input type="password" id="password" name="PASSWORD" > -->
 
 			<fieldset>
 				<legend>약관동의</legend>
@@ -116,7 +124,7 @@ $(function(){
 				<label class="l-float">서비스 약관에 동의합니다.</label>
 			</fieldset>
 
-			<input id="join_submit" type="submit" value="가입하기">
+			<input id="join_submit" type="button" value="가입하기">
 
 		</form:form>
 	</div>
