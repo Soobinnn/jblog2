@@ -6,10 +6,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,17 +74,12 @@ public class BlogController
 	/** 블로그 관리페이지 **/
 	@Auth
 	@RequestMapping("/admin")
-	public String blogAdmin(@PathVariable String ID,HttpSession session, @RequestParam(value="n",required=false, defaultValue="1") int nav_no, Model model)
+	public String blogAdmin(@PathVariable String ID, @RequestParam(value="n",required=false, defaultValue="1") int nav_no, 
+			@ModelAttribute PostVo postVo, Model model)
 	{
-			UserVo checkUser = (UserVo)session.getAttribute("authUser");
-			
-			// 본인 블로그가 아닌사람이 접근할 경우 예외처리
-			if(checkUser==null || !(ID.equals(checkUser.getID())))
-			{
-				return "redirect:/";
-			}
 			
 			BlogVo blogVo = blogService.getInfo(ID);
+			
 			
 			model.addAttribute("nav_no",nav_no);
 			model.addAttribute("blogInfo",blogVo);
@@ -110,8 +108,30 @@ public class BlogController
 	/** 블로그 포스트 작성 **/
 	@Auth
 	@RequestMapping(value="/postWrite", method=RequestMethod.POST)
-	public String blogWrite(@PathVariable String ID, @ModelAttribute PostVo postVo, Model model)
+	public String blogWrite(@PathVariable String ID, @ModelAttribute @Valid PostVo postVo, BindingResult result, Model model)
 	{
+		
+		  //예외처리하기
+		  if(result.hasErrors())
+			{
+				List<ObjectError> list = result.getAllErrors();
+				for(ObjectError error : list)
+				{
+					System.out.println(error);
+				}
+				
+				model.addAllAttributes(result.getModel());
+				
+				List<CategoryVo> categoryNameList = categoryService.getCategoryNameList(ID);
+				BlogVo blogVo = blogService.getInfo(ID);
+				
+				model.addAttribute("categoryNameList",categoryNameList);
+				model.addAttribute("nav_no",3);
+				model.addAttribute("blogInfo",blogVo);
+				
+				return "blog/blog-admin-write";
+			}
+		  
 			postService.postWrite(postVo);
 			System.out.println(postVo.toString());
 			//"redirect:/"+ID+"/Category/Post?no="+boardVo.getBoard_no();

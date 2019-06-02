@@ -2,10 +2,14 @@ package com.cafe24.jblog2.vo;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class PostVo 
 {
 	private long POST_NO;
+	@NotEmpty
 	private String TITLE;
+	@NotEmpty
 	private String CONTENT;
 	private Date REG_DATE;
 	private long CATEGORY_NO;

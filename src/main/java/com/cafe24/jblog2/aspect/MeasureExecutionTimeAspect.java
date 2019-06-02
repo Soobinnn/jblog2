@@ -1,4 +1,4 @@
-package com.caf24.jblog2.aspect;
+package com.cafe24.jblog2.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
