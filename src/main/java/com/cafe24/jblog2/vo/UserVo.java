@@ -2,9 +2,16 @@ package com.cafe24.jblog2.vo;
 
 import java.sql.Date;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserVo 
 {
+	@NotEmpty
 	private String ID;
+	
+	@NotEmpty
+	@Length(min=2, max=8)
 	private String NAME;
 	private String PASSWORD;
 	private Date REG_DATE;

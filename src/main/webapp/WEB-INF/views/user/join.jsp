@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!doctype html>
 <html>
@@ -81,17 +83,32 @@ $(function(){
 	<div class="center-content">
 		<h1 class="logo">JBlog</h1>
 		<c:import url="/WEB-INF/views/includes/main_nav.jsp"/>
-		<form class="join-form" id="join-form" method="post" action="${pageContext.servletContext.contextPath}/user/join">
+		<form:form modelAttribute="userVo" class="join-form" id="join-form" 
+			name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join" >
 			<label class="block-label" for="name">이름</label>
 			<input id="name"name="NAME" type="text" value="">
+			<spring:hasBindErrors name="userVo">
+				 <c:if test="${errors.hasFieldErrors('NAME') }">
+					<p style="font-weight:bold; color:red; text-align:left; padding:0">
+					  	<spring:message 
+							code="${errors.getFieldError( 'NAME' ).codes[0] }" 				     
+						    text="${errors.getFieldError( 'NAME' ).defaultMessage }" />
+					</p> 
+			   	</c:if>
+			</spring:hasBindErrors>
 			
-			<label class="block-label" for="blog-id">아이디</label>
-			<input id="blog-id" name="ID" type="text"> 
+			<label class="block-label" for="ID">아이디</label>
+			<!-- <input id="blog-id" name="ID" type="text">  -->
+			<form:input id="ID" path="ID" />
 			<input id="btn-checkemail" type="button" value="id 중복체크">
 			<img id="img-checkemail" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
-
-			<label class="block-label" for="password">패스워드</label>
-			<input type="password" id="password" name="PASSWORD" >
+			<p style="font-weight:bold; color:#f00; text-align:left; padding:0; margin:0 ">
+				<form:errors path="ID" />
+			</p>
+			
+			<label class="block-label" for="PASSWORD">패스워드</label>
+			<form:password id="password" path="PASSWORD" />
+			<!-- <input type="password" id="password" name="PASSWORD" > -->
 
 			<fieldset>
 				<legend>약관동의</legend>
@@ -101,7 +118,7 @@ $(function(){
 
 			<input id="join_submit" type="submit" value="가입하기">
 
-		</form>
+		</form:form>
 	</div>
 </body>
 </html>

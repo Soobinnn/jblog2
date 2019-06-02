@@ -41,9 +41,10 @@ public class PostServiceImpl implements PostService
 			System.out.println("default");
 			// 최근 포스트 내용 가져오기
 			postView = postDao.getPostView(id);
-			// 포스트 목록가져오기
-			postList = postDao.getPostList(postView.getCATEGORY_NO()); 
-			
+			if(postView != null)
+			{	// 포스트 목록가져오기
+				postList = postDao.getPostList(postView.getCATEGORY_NO()); 
+			}
 		}
 		else if(categoryNo == 0 && postNo >0)
 		{
